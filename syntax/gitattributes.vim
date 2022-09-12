@@ -60,7 +60,6 @@ syntax match gitattributesPatternAttrLine '^.*$'
 " macro
 syntax match gitattributesMacroLine '^\s*\[attr\].*$'
   \ transparent
-  \ nextgroup=gitattributesMacroPrefix
   \ contains=
     \ gitattributesAttr,
     \ gitattributesMacroPrefix,
@@ -71,7 +70,6 @@ syntax match gitattributesMacroName '\[attr\]\zs\S\+'
     \ gitattributesAttrName,
 syntax match gitattributesMacroPrefix '\[attr\]\S\+'
   \ contained
-  \ nextgroup=gitattributesMacroName
   \ contains=
     \ gitattributesMacroName,
 
