@@ -12,7 +12,7 @@ syntax match gitattributesAttrPrefix '[!-]'
   \ nextgroup=gitattributesAttrName,
 syntax match gitattributesAttrValue '=\S\+'ms=s+1
   \ contained
-syntax match gitattributesAttr '\s\zs[!-]\?[A-Za-z0-9_.][-A-Za-z0-9_.]\+\%(=\S\+\)\?'
+syntax match gitattributesAttr '\s\zs[!-]\?[A-Za-z0-9_.][-A-Za-z0-9_.]*\%(=\S\+\)\?'
   \ contained
   \ nextgroup=gitattributesAttr
   \ transparent
