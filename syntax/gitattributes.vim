@@ -94,7 +94,7 @@ highlight link gitattributesAttrValue Constant
 " pattern
 highlight link gitattributesBrackets Delimiter
 highlight link gitattributesDirSeparator Delimiter
-highlight link gitattributesEscapedCharacter gitattributesPattern
+highlight link gitattributesEscapedCharacter SpecialChar
 highlight link gitattributesGroup Character
 highlight link gitattributesPattern Constant
 highlight link gitattributesRange Character
