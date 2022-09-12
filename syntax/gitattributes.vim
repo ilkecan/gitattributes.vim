@@ -28,18 +28,25 @@ syntax match gitattributesDirSeparator '/'
   \ contained
 syntax match gitattributesEscapedCharacter '\\.'
   \ contained
+syntax region gitattributesGroup matchgroup=gitattributesBrackets start="\[" skip="\\\]" end="\]"
+  \ oneline
+  \ contained
+  \ contains=
+    \ gitattributesRange,
 syntax match gitattributesPattern '^\s*\zs\%(\\.\|[^\\[:blank:]]\)\+'
   \ contained
   \ nextgroup=gitattributesAttr
   \ contains=
     \ gitattributesDirSeparator,
     \ gitattributesEscapedCharacter,
-    \ gitattributesRange,
+    \ gitattributesGroup,
     \ gitattributesWildcard,
-syntax match gitattributesRange '\[.*\]'
+syntax match gitattributesRange '\%(\d-\d\|\a-\a\)'
   \ contained
   \ contains=
-    \ gitattributesBrackets,
+    \ gitattributesRangeSeperator,
+syntax match gitattributesRangeSeperator '-'
+  \ contained
 syntax match gitattributesWildcard '[*?]'
   \ contained
 
@@ -87,8 +94,10 @@ highlight link gitattributesAttrValue Constant
 highlight link gitattributesBrackets Delimiter
 highlight link gitattributesDirSeparator Delimiter
 highlight link gitattributesEscapedCharacter gitattributesPattern
+highlight link gitattributesGroup Character
 highlight link gitattributesPattern Constant
-highlight link gitattributesRange Identifier
+highlight link gitattributesRange Character
+highlight link gitattributesRangeSeperator Delimiter
 highlight link gitattributesWildcard SpecialChar
 
 " macro
