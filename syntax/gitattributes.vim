@@ -3,6 +3,9 @@ if exists('b:current_syntax')
 endif
 
 " SYNTAX
+" c.vim, for cCppString
+syntax include syntax/c.vim
+
 " attribute
 syntax match gitattributesAttrName '[[:alnum:]_.][[:alnum:]_.-]*'
   \ contained
@@ -33,9 +36,16 @@ syntax region gitattributesGroup matchgroup=gitattributesBrackets start="\[" ski
   \ contained
   \ contains=
     \ gitattributesRange,
-syntax match gitattributesPattern '^\s*\zs\%(\\.\|[^\\[:blank:]]\)\+'
+syntax match gitattributesPattern '^\s*\zs\S\+'
+  \ transparent
   \ contained
   \ nextgroup=gitattributesAttr
+  \ contains=
+    \ gitattributesString,
+    \ gitattributesString,
+    \ gitattributesPath,
+syntax match gitattributesPath '\%(\\.\|[^\\[:blank:]]\)\+'
+  \ contained
   \ contains=
     \ gitattributesDirSeparator,
     \ gitattributesEscapedCharacter,
@@ -47,6 +57,11 @@ syntax match gitattributesRange '\%(\d-\d\|\a-\a\)'
     \ gitattributesRangeSeperator,
 syntax match gitattributesRangeSeperator '-'
   \ contained
+syntax match gitattributesString '".*[^\\]"'
+  \ transparent
+  \ contained
+  \ contains=
+    \ cCppString,
 syntax match gitattributesWildcard '[*?]'
   \ contained
 
@@ -94,7 +109,7 @@ highlight link gitattributesBrackets Delimiter
 highlight link gitattributesDirSeparator Delimiter
 highlight link gitattributesEscapedCharacter SpecialChar
 highlight link gitattributesGroup Character
-highlight link gitattributesPattern Constant
+highlight link gitattributesPath Constant
 highlight link gitattributesRange Character
 highlight link gitattributesRangeSeperator Delimiter
 highlight link gitattributesWildcard SpecialChar
