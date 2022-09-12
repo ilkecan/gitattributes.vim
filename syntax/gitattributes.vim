@@ -4,12 +4,12 @@ endif
 
 " SYNTAX
 " attribute
-syntax match gitattributesAttrPrefix '[!-]'
-  \ contained
-  \ nextgroup=gitattributesAttrName,
 syntax match gitattributesAttrName '[A-Za-z0-9_.][-A-Za-z0-9_.]*'
   \ contained
   \ nextgroup=gitattributesAttrValue,
+syntax match gitattributesAttrPrefix '[!-]'
+  \ contained
+  \ nextgroup=gitattributesAttrName,
 syntax match gitattributesAttrValue '=\S\+'ms=s+1
   \ contained
 syntax match gitattributesAttr '\s\zs[!-]\?[A-Za-z0-9_.][-A-Za-z0-9_.]\+\%(=\S\+\)\?'
@@ -17,21 +17,16 @@ syntax match gitattributesAttr '\s\zs[!-]\?[A-Za-z0-9_.][-A-Za-z0-9_.]\+\%(=\S\+
   \ nextgroup=gitattributesAttr
   \ transparent
   \ contains=
-    \ gitattributesAttrPrefix,
     \ gitattributesAttrName,
+    \ gitattributesAttrPrefix,
     \ gitattributesAttrValue,
 
 " pattern
+syntax match gitattributesBrackets '[[\]]'
+  \ contained
 syntax match gitattributesDirSeparator '/'
   \ contained
 syntax match gitattributesEscapedCharacter '\\.'
-  \ contained
-syntax match gitattributesBrackets '[[\]]'
-  \ contained
-syntax match gitattributesRange '\[.*\]'
-  \ contained
-  \ contains=gitattributesBrackets
-syntax match gitattributesWildcard '[*?]'
   \ contained
 syntax match gitattributesPattern '^\s*\zs\%(\\.\|[^\\[:blank:]]\)\+'
   \ contained
@@ -41,13 +36,19 @@ syntax match gitattributesPattern '^\s*\zs\%(\\.\|[^\\[:blank:]]\)\+'
     \ gitattributesEscapedCharacter,
     \ gitattributesRange,
     \ gitattributesWildcard,
+syntax match gitattributesRange '\[.*\]'
+  \ contained
+  \ contains=
+    \ gitattributesBrackets,
+syntax match gitattributesWildcard '[*?]'
+  \ contained
 
 " pattern attr1 attr2 ...
 syntax match gitattributesPatternAttrLine '^.*$'
   \ transparent
   \ contains=
-    \ gitattributesPattern,
     \ gitattributesAttr,
+    \ gitattributesPattern,
 
 " macro
 syntax match gitattributesMacroPrefix '^\s*\zs\[attr\]'
@@ -56,39 +57,42 @@ syntax match gitattributesMacroPrefix '^\s*\zs\[attr\]'
 
 syntax match gitattributesMacroName '\[attr\]\zs.*'
   \ nextgroup=gitattributesAttr
-  \ contains=gitattributesAttrName
+  \ contains=
+    \ gitattributesAttrName,
 
 syntax match gitattributesMacroLine '^.*\[attr\].*$'
   \ transparent
   \ contains=
-    \ gitattributesMacroPrefix,
-    \ gitattributesMacroName,
     \ gitattributesAttr,
+    \ gitattributesMacroName,
+    \ gitattributesMacroPrefix,
 
+" comment
+syn match	gitattributesComment	"^\s*#.*$"
+  \ contains=
+    \ gitattributesTodo,@Spell,
 syn keyword	gitattributesTodo
   \ contained
   \ FIXME
   \ TODO
   \ XXX
-syn match	gitattributesComment	"^\s*#.*$"
-  \ contains=gitattributesTodo,@Spell
 
 " HIGHLIGHT
-" macro
-highlight link gitattributesMacroPrefix Keyword
-
 " attribute
-highlight link gitattributesAttrPrefix SpecialChar
 highlight link gitattributesAttrName Identifier
+highlight link gitattributesAttrPrefix SpecialChar
 highlight link gitattributesAttrValue Constant
 
 " pattern
 highlight link gitattributesBrackets Delimiter
 highlight link gitattributesDirSeparator Delimiter
 highlight link gitattributesEscapedCharacter gitattributesPattern
+highlight link gitattributesPattern Constant
 highlight link gitattributesRange Identifier
 highlight link gitattributesWildcard SpecialChar
-highlight link gitattributesPattern Constant
+
+" macro
+highlight link gitattributesMacroPrefix Keyword
 
 " comment
 highlight link gitattributesComment Comment
