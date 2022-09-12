@@ -4,7 +4,7 @@ endif
 
 " SYNTAX
 " attribute
-syntax match gitattributesAttrName '[A-Za-z0-9_.][-A-Za-z0-9_.]*'
+syntax match gitattributesAttrName '[[:alnum:]_.][[:alnum:]_.-]*'
   \ contained
   \ nextgroup=gitattributesAttrValue,
 syntax match gitattributesAttrPrefix '[!-]'
@@ -58,21 +58,22 @@ syntax match gitattributesPatternAttrLine '^.*$'
     \ gitattributesPattern,
 
 " macro
-syntax match gitattributesMacroPrefix '^\s*\zs\[attr\]'
+syntax match gitattributesMacroLine '^\s*\[attr\].*$'
+  \ transparent
+  \ nextgroup=gitattributesMacroPrefix
+  \ contains=
+    \ gitattributesAttr,
+    \ gitattributesMacroPrefix,
+syntax match gitattributesMacroName '\[attr\]\zs\S\+'
   \ contained
-  \ nextgroup=gitattributesMacroAttrName
-
-syntax match gitattributesMacroName '\[attr\]\zs.*'
   \ nextgroup=gitattributesAttr
   \ contains=
     \ gitattributesAttrName,
-
-syntax match gitattributesMacroLine '^.*\[attr\].*$'
-  \ transparent
+syntax match gitattributesMacroPrefix '\[attr\]\S\+'
+  \ contained
+  \ nextgroup=gitattributesMacroName
   \ contains=
-    \ gitattributesAttr,
     \ gitattributesMacroName,
-    \ gitattributesMacroPrefix,
 
 " comment
 syn match	gitattributesComment	"^\s*#.*$"
