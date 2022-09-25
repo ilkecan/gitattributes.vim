@@ -4,6 +4,7 @@ Upstream-Contact: ilkecan <ilkecan@protonmail.com>
 Source: https://github.com/ilkecan/gitattributes.vim
 
 Files:
+  *.editorconfig
   *.gitattributes
   *.md
 Copyright: 2022 ilkecan <ilkecan@protonmail.com>
